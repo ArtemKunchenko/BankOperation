@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.SqlTypes;
+using static BankOperation.Program;
 using static BankOperation.Program.BankAccount;
 
 namespace BankOperation
@@ -22,6 +23,7 @@ namespace BankOperation
             {
                 BankOperationEvent?.Invoke(this, amount, operationType);
             }
+            public void ShowAccount() { Console.WriteLine($"Account: {AccountNumber} \nCurrant balance: ${Balance}\n"); }
 
         }
         #endregion
@@ -51,18 +53,16 @@ namespace BankOperation
             TransactionManager transactionManager = new TransactionManager();
             account1.BankOperationEvent += BankOperation;
             account2.BankOperationEvent += BankOperation;
-
-
-
-            transactionManager.Deposit(account1, 200);
-            Console.WriteLine();
-            transactionManager.Withdraw(account2, 600);
+            account1.ShowAccount();
+            transactionManager.Deposit(account1, 1000);
+            account2.ShowAccount();
+            transactionManager.Withdraw(account2, 14000);
 
             Console.ReadKey();
         }
         static void BankOperation(BankAccount bankAccount, double amount, string operationType)
         {
-            Console.WriteLine($"Account: {bankAccount.AccountNumber} \nAmount: {amount} \nOperation Type: {operationType} \nBalance: {bankAccount.Balance}");
+            Console.WriteLine($"Operation is successful \nAccount: {bankAccount.AccountNumber} \nAmount: ${amount} \nOperation Type: {operationType} \nBalance: ${bankAccount.Balance}\n");
         }
     }
 }
